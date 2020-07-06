@@ -1,0 +1,18 @@
+# Node stuff
+node_modules/
+*.log
+npm-debug.log*
+.npm
+.node_repl_history
+
+# IntelliJ stuff
+*.iml
+.idea/
+
+# Build output
+dist/
+dist-test/
+deploy-*.sh
+deploy-*.bat
+sam-deploy.yaml
+template_george.yaml
