@@ -5,10 +5,10 @@ import { HealthIndicator, HealthIndicatorResult, HealthCheckError } from '@nestj
 @Injectable()
 export class DbHealthService extends HealthIndicator {
 
-  async isHealthy(key: string): Promise<HealthIndicatorResult> {
+  async isHealthy(key: string, doFailTest?: boolean): Promise<HealthIndicatorResult> {
 
-    //Checking db here - a dummy call for now
-    const isHealthy = true;
+    //Checking db connectivity here - this is a dummy call for now - we will force failure if a test key is passed
+    const isHealthy = !doFailTest;
     const result = this.getStatus('database', isHealthy);
 
     if (isHealthy) {

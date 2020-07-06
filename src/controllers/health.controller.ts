@@ -1,7 +1,6 @@
-import { Controller, Get, Header } from '@nestjs/common';
+import { Controller, Get, Header, Query } from '@nestjs/common';
 import { DNSHealthIndicator, HealthCheck, HealthCheckService } from '@nestjs/terminus';
 import { DbHealthService } from '../services/db-health.service';
-import { async } from 'rxjs';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('health')
@@ -15,12 +14,15 @@ export class HealthController {
   @Get()
   @Header('Content-Type', 'application/json')
   @ApiTags('')
-  @ApiOperation({operationId: 'GetHealth', summary: 'getHealth'})
+  @ApiOperation({operationId: 'GetHealth', summary: 'getHealth',
+    description: 'Returns http status=200 if service is running normally.'
+    + ' Use <host>/health?dofail=true to demo failure'})
   @HealthCheck()
-  check() {
+  check(@Query() query) {
+    const doForceDbFailureTest = (query && query.dofail) ? true: false;
     return this.health.check([
       () => this.dns.pingCheck('ping-outbound-check', 'http://google.com'),
-      async() => this.dbHealthService.isHealthy('database'),
+      async() => this.dbHealthService.isHealthy('database', doForceDbFailureTest),
     ]);
   }
 }

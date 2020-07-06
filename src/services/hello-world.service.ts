@@ -4,8 +4,7 @@ import { HelloWorldResponse } from '../models/hello-world.response';
 @Injectable()
 export class HelloWorldService {
   getHello(): HelloWorldResponse {
-    let response = new HelloWorldResponse();
-    response.Message = 'Hello World';
+    let response = new HelloWorldResponse('Hello World');
     return response;
   }
 }
